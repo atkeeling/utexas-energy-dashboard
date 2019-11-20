@@ -15,13 +15,18 @@ Currently, as Demand Side Energy Manager of UT, I manage a team of engineers and
 We have tons of data! Over 90% of the buildings are metered for a variety of utilities including electricity, chilled water, steam, gas, hot water, and domestic water. Most buildings on campus are fed by the UT power plant, and mainly consume electricity for lighting and plug loads, chilled water for cooling, and steam for heating. A small number of buildings use gas, mostly in kitchens, and a few buildings use hot water instead of steam for heating. To keep things simple, I will focus on the main utilities - electricity, chilled water, and steam. 
 
 We already have a dashboard called the "Energy Portal" that was made by a third party vendor a few years ago. I'm going to recreate it. The Energy Portal can be found at the [UT Utilites website](https://utilities.utexas.edu/)
+
 [Direct Link to Energy Portal](https://energyportal.utilities.utexas.edu/IWS80/?screen=startup.sg&guestuser=1&_ga=2.218719961.1187759209.1574210255-754672287.1569254792)
+
 Note: It is only accessible when on campus using the "utexas" network.
 
 Screenshots of Energy Portal
-  ![EnergyPortalMap](Images/Energy portal map.png)
-  ![EnergyPortalCHW](Images/Energy portal CHW plot.png)
-  ![EnergyPortalSTM](Images/Energy portal STM plot.png)
+
+  ![EnergyPortalMap](Images/Energy_portal_map.PNG)
+
+  ![EnergyPortalCHW](Images/Energy_portal_CHW plot.PNG)
+  
+  ![EnergyPortalSTM](Images/Energy_portal_STM plot.PNG)
 
 ### Data and Source
 
