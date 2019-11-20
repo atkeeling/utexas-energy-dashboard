@@ -22,11 +22,11 @@ Note: It is only accessible when on campus using the "utexas" network.
 
 Screenshots of Energy Portal
 
-  [EnergyPortalMap](Images/Energy_portal_map.png)
+  ![EnergyPortalMap](Images/Energy_portal_map.png)
 
-  [EnergyPortalCHW](Images/Energy_portal_CHW_plot.png)
+  ![EnergyPortalCHW](Images/Energy_portal_CHW_plot.png)
 
-  [EnergyPortalSTM](Images/Energy_portal_STM_plot.png)
+  ![EnergyPortalSTM](Images/Energy_portal_STM_plot.png)
 
 ### Data and Source
 
@@ -40,8 +40,9 @@ Some building metadata can be found on the [UT Facilities site](https://utdirect
 
 ### Tools
 
-D3 plotly for the plots
-D3 leaflet for the map
+D3 plotly for the plots  
+D3 leaflet for the map  
+SQLite for data storage  
 
 ### Future project
 
