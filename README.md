@@ -22,11 +22,11 @@ Note: It is only accessible when on campus using the "utexas" network.
 
 Screenshots of Energy Portal
 
-  ![EnergyPortalMap](Images/Energy_portal_map.png)
+  ![EnergyPortalMap](dashboard/Images/Energy_portal_map.png)
 
-  ![EnergyPortalCHW](Images/Energy_portal_CHW_plot.png)
+  ![EnergyPortalCHW](dashboard/Images/Energy_portal_CHW_plot.png)
 
-  ![EnergyPortalSTM](Images/Energy_portal_STM_plot.png)
+  ![EnergyPortalSTM](dashboard/Images/Energy_portal_STM_plot.png)
 
 ### Data and Source
 
