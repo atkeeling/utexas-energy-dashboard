@@ -1,0 +1,26 @@
+map to select building
+
+move data to SQL
+
+
+
+change colors of circles to match utility selected
+map to have radius based on utility selected
+
+date range selector - slider and type in fields
+
+add TBU-site and TBU-source
+
+
+calculate regression based on given date range
+plot model
+plot variance band
+ability to remove bad data
+
+separate utility and temp data into separate files
+
+EUI calculation per day
+rolling source EUI per utility
+add EUI target line on time plot
+
+auto load data to SQL every day
