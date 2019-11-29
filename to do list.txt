@@ -1,16 +1,27 @@
-map to select building
+## JS
+- popup link goes to plot page with bulding id in URL
+- from plot page javascript use d3.json to call the buildings route and fetch building data
+- build plotly charts with returned data (see HW 12)
+
+## python (flask)
+- create meter_json route that queries database and gets meter data for the selected acronym
+- return jsonified meter data 
+
+## postgres
+- create table for building metadata
+- create table for meter data 
+
+
 
 move data to SQL
 
-
-
 change colors of circles to match utility selected
-map to have radius based on utility selected
 
-date range selector - slider and type in fields
+map to have radius based on utility selected
 
 add TBU-site and TBU-source
 
+date range selector - slider and type in fields
 
 calculate regression based on given date range
 plot model

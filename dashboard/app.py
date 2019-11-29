@@ -21,22 +21,24 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '') or "s
 
 db = SQLAlchemy(app)
 
-# from .models import Building
-
-
-# create route that renders index.html template
-@app.route("/map")
+@app.route("/")
 def mapPage():
-    return render_template("index_map.html")
+    return render_template("index.html")
 
+@app.route("/plots/<acronym>")
+def plots(acronym):
+    return render_template("plots.html", acronym=acronym)
 
-# Query the database and send the jsonified results
-@app.route("/plots")
-def plotsPage():
-    return render_template("index_plots.html")
+@app.route("/meter_json/<acronym>")
+def meter_json(acronym):
+    # query sql database with sqlalchmey
+#     results = db.session.query(Pet.name, Pet.lat, Pet.lon).all()
 
+    # filter by acronym 
 
-# @app.route("/api/pals")
+    # return jsonified data as API request from d3
+    return jsonify(data)
+
 # def pals():
 #     results = db.session.query(Pet.name, Pet.lat, Pet.lon).all()
 
