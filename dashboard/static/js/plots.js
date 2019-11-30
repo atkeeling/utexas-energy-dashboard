@@ -146,8 +146,6 @@ function updateToolTip(chosenUtility, circlesGroup) {
   return circlesGroup;
 }
 
-
-
 // Retrieve data from the CSV file and execute everything below
 (async function(){
     const utilityData = await d3.csv("static/data/BIOUtilityData.csv");

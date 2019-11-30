@@ -1,25 +1,26 @@
-# import necessary libraries
-import os
+
 from flask import (
     Flask,
     render_template,
     jsonify,
-    request,
-    redirect)
-
-#################################################
-# Flask Setup
-#################################################
-app = Flask(__name__)
-
-#################################################
-# Database Setup
-#################################################
+    request)
 
 from flask_sqlalchemy import SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', '') or "sqlite:///data/buildings.sqlite"
+
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data/building_energy_data.sqlite"
 
 db = SQLAlchemy(app)
+
+# from sqlalchemy import create_engine
+# user = "postgres"
+# password = "changeme"
+# host = "localhost"
+# port = "5432"
+# db = "building_energy_data"
+# uri = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}"
+# engine = create_engine(uri)
 
 @app.route("/")
 def mapPage():
@@ -31,39 +32,21 @@ def plots(acronym):
 
 @app.route("/meter_json/<acronym>")
 def meter_json(acronym):
-    # query sql database with sqlalchmey
-#     results = db.session.query(Pet.name, Pet.lat, Pet.lon).all()
+    results = db.session.query(meter_readings.chw, meter_readings.ele, meter_readings.stm).filter(meter_readings.acr=="acronym").all()
 
-    # filter by acronym 
+    chw = [result[0] for result in results]
+    ele = [result[1] for result in results]
+    stm = [result[2] for result in results]
+    temp = [result[3] for result in results]
+    meter_data = {
+        "chw": chw,
+        "ele": ele,
+        "stm": stm,
+        "temp": temp
+    }
 
     # return jsonified data as API request from d3
-    return jsonify(data)
-
-# def pals():
-#     results = db.session.query(Pet.name, Pet.lat, Pet.lon).all()
-
-#     hover_text = [result[0] for result in results]
-#     lat = [result[1] for result in results]
-#     lon = [result[2] for result in results]
-
-#     pet_data = [{
-#         "type": "scattergeo",
-#         "locationmode": "USA-states",
-#         "lat": lat,
-#         "lon": lon,
-#         "text": hover_text,
-#         "hoverinfo": "text",
-#         "marker": {
-#             "size": 50,
-#             "line": {
-#                 "color": "rgb(8,8,8)",
-#                 "width": 1
-#             },
-#         }
-#     }]
-
-#     return jsonify(pet_data)
-
+    return jsonify(meter_data)
 
 if __name__ == "__main__":
     app.run()
