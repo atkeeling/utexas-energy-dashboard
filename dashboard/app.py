@@ -26,10 +26,6 @@ db = SQLAlchemy(app)
 def mapPage():
     return render_template("index.html")
 
-@app.route("/plots/<acronym>")
-def plots(acronym):
-    return render_template("plots.html", acronym=acronym)
-
 @app.route("/meter_json/<acronym>")
 def meter_json(acronym):
     results = db.session.query(meter_readings.chw, meter_readings.ele, meter_readings.stm).filter(meter_readings.acr=="acronym").all()
@@ -47,6 +43,10 @@ def meter_json(acronym):
 
     # return jsonified data as API request from d3
     return jsonify(meter_data)
+
+@app.route("/plots/<acronym>")
+def plots(acronym):
+    return render_template("plots.html", acronym=meter_json)
 
 if __name__ == "__main__":
     app.run()
