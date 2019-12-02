@@ -11,14 +11,21 @@ let mymap = L.map('map', {
     layers: [outdoors] 
 });
 
-d3.csv("data/lon_lat.csv", function(data) {
-        data.forEach(building => {
-            L.marker([building.Latitude,building.Longitude])
-            .bindPopup(`<a href='plots/${building.Building}'>${building.Building}</a>`)
-            .addTo(mymap)
-        })
-    })
+// d3.json("data/lon_lat.csv", function(data) {
+//     data.forEach(building => {
+//         L.marker([building.Latitude,building.Longitude])
+//         .bindPopup(`<a href='plots/${building.Building}'>${building.Building}</a>`)
+//         .addTo(mymap)
+//     })
+// })
 
+d3.csv("data/lat_lon.csv", function(data) {
+    data.forEach(building => {
+        L.marker([building.Latitude,building.Longitude])
+        .bindPopup(`<a href='plots/${building.Building}'>${building.Building}</a>`)
+        .addTo(mymap)
+    })
+})
 
 // let buildingLayer = new L.LayerGroup();
 

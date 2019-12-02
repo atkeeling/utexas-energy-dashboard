@@ -1,3 +1,6 @@
+import datetime as dt
+import numpy as np
+import pandas as pd
 
 from flask import (
     Flask,
@@ -5,30 +8,41 @@ from flask import (
     jsonify,
     request)
 
-from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine, func
 
-app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data/building_energy_data.sqlite"
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data/building_energy_data.sqlite"
+# db = SQLAlchemy(app)
 
-db = SQLAlchemy(app)
-
-# from sqlalchemy import create_engine
 # user = "postgres"
 # password = "changeme"
 # host = "localhost"
 # port = "5432"
 # db = "building_energy_data"
 # uri = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}"
-# engine = create_engine(uri)
+# uri = "sqlite:///data/building_energy_data.sqlite"
+engine = create_engine("sqlite:///data/building_energy_data.sqlite")
+Base = automap_base()
+Base.prepare(engine, reflect=True)
+
+Building_info = Base.classes.building_info
+Meter_readings = Base.classes.meter_readings
+Daily_temp = Base.classes.dailyTemp
+
+session = Session(engine)
+
+app = Flask(__name__)
 
 @app.route("/")
 def mapPage():
     return render_template("index.html")
 
-@app.route("/meter_json/<acronym>")
-def meter_json(acronym):
-    results = db.session.query(meter_readings.chw, meter_readings.ele, meter_readings.stm).filter(meter_readings.acr=="acronym").all()
+@app.route("/meter_json/<sel_bldg>")
+def meter_json(sel_bldg):
+    results = session.query(Meter_readings.chw, Meter_readings.ele, Meter_readings.stm, Meter_readings.temp).filter(Meter_readings.acr=="sel_bldg").all()
 
     chw = [result[0] for result in results]
     ele = [result[1] for result in results]
@@ -44,9 +58,9 @@ def meter_json(acronym):
     # return jsonified data as API request from d3
     return jsonify(meter_data)
 
-@app.route("/plots/<acronym>")
-def plots(acronym):
-    return render_template("plots.html", acronym=meter_json)
+@app.route("/plots/<sel_bldg>")
+def plots(sel_bldg):
+    return render_template("plots.html", sel_bldg=meter_json)
 
 if __name__ == "__main__":
     app.run()
