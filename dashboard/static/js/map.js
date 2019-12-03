@@ -11,21 +11,36 @@ let mymap = L.map('map', {
     layers: [outdoors] 
 });
 
-// d3.json("data/lon_lat.csv", function(data) {
-//     data.forEach(building => {
-//         L.marker([building.Latitude,building.Longitude])
-//         .bindPopup(`<a href='plots/${building.Building}'>${building.Building}</a>`)
+// testjson = d3.json("/building_json")
+// console.log(testjson)
+
+
+d3.json("/building_json").then(allBuildings => {
+    allBuildings.forEach(building => {
+        L.marker([building.lat,building.lon])
+        .bindPopup(`<a href='plots/${building.acr}'>${building.acr}</a>`)
+        .addTo(mymap)
+    })
+})
+
+
+// d3.json("/building_json", function(data) {
+//     console.log(data)
+//     Object.entries(data).forEach(building => {
+//         L.marker([building.lat,building.lon])
+//         .bindPopup(`<a href='plots/${building.acr}'>${building.acr}</a>`)
 //         .addTo(mymap)
 //     })
 // })
 
-d3.csv("data/lat_lon.csv", function(data) {
-    data.forEach(building => {
-        L.marker([building.Latitude,building.Longitude])
-        .bindPopup(`<a href='plots/${building.Building}'>${building.Building}</a>`)
-        .addTo(mymap)
-    })
-})
+// d3.csv("data/lat_lon.csv", function(data) {
+//         console.log(data)
+//         data.forEach(building => {
+//             L.marker([building.Latitude,building.Longitude])
+//             .bindPopup(`<a href='plots/${building.Building}'>${building.Building}</a>`)
+//             .addTo(mymap)
+//         })
+//     })
 
 // let buildingLayer = new L.LayerGroup();
 

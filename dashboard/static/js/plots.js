@@ -1,6 +1,6 @@
 function plot(sel_bldg){
-    url = "/meter_json/<sel_bldg>"
-    utilityData = d3.json(url)
+    url = `/meter_json/${sel_bldg}`;
+    let utilityData = d3.json(url)
 
     const parseTime = d3.timeParse("%m/%e/%Y %_H:%M");
     // parse data
