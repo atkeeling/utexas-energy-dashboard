@@ -47,19 +47,20 @@ def mapPage():
 @app.route("/building_json")
 def building_json():
     lat_lon = db.session.query(Building_info.Acronym, Building_info.Latitude, Building_info.Longitude).all()
-    acr = [result[0] for result in lat_lon]
-    lat = [result[1] for result in lat_lon]
-    lon = [result[2] for result in lat_lon]
-    building_lat_lon = {
-        "acr": acr,
-        "lat": lat,
-        "lon": lon
-    }
+
+    building_lat_lon = []
+    for result in lat_lon:
+        building_lat_lon.append({
+            "acr": result[0],
+            "lat": result[1],
+            "lon": result[2]
+        })
     return jsonify(building_lat_lon)
 
 @app.route("/meter_json/<sel_bldg>")
 def meter_json(sel_bldg):
     sel = [
+        Meter_readings.DateTime,
         Meter_readings.chw,
         Meter_readings.ele,
         Meter_readings.stm,
@@ -72,22 +73,33 @@ def meter_json(sel_bldg):
     #     meter_data["ele"] = result[1]
     #     meter_data["stm"] = result[2]
     #     meter_data["temp"] = result[3]
-    chw = [result[0] for result in results]
-    ele = [result[1] for result in results]
-    stm = [result[2] for result in results]
-    temp = [result[3] for result in results]
-    meter_data = {
-        "chw": chw,
-        "ele": ele,
-        "stm": stm,
-        "temp": temp
-    }
+    # date = [result[0] for result in results]
+    # chw = [result[1] for result in results]
+    # ele = [result[2] for result in results]
+    # stm = [result[3] for result in results]
+    # temp = [result[4] for result in results]
+    # meter_data = {
+    #     "date": date,
+    #     "chw": chw,
+    #     "ele": ele,
+    #     "stm": stm,
+    #     "temp": temp
+    # }
+    meter_data = []
+    for result in results:
+        meter_data.append({
+            "DateTime": result[0],
+            "chw": result[1],
+            "ele": result[2],
+            "stm": result[3],
+            "temp": result[4]
+        })
 
     return jsonify(meter_data)
 
 @app.route("/plots/<sel_bldg>")
 def plots(sel_bldg):
-    return render_template("plots.html", sel_bldg=meter_json)
+    return render_template("plots.html", sel_bldg=sel_bldg)
 
 if __name__ == "__main__":
     app.run()

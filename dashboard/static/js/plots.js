@@ -1,30 +1,24 @@
-function plot(sel_bldg){
-    url = `/meter_json/${sel_bldg}`;
-    let utilityData = d3.json(url)
-
+async function plots(sel_bldg){
+    let url = `/meter_json/${sel_bldg}`;
     const parseTime = d3.timeParse("%m/%e/%Y %_H:%M");
-    // parse data
-    utilityData.forEach(function(data) {
-        data.date = parseTime(data.DateTime);
-        // data.date = Date.parse(data.DateTime);
-        data.chw = +data.chw;
-        data.ele = +data.ele;
-        data.stm = +data.stm;
-        data.temp = +data.temp;})
+    let utilityData = await d3.json(url).then(function(data) {
+        data.map(d => d.date = parseTime(d.DateTime));
+        return data
+        });
 
     const svgWidth = 800;
     const svgHeight = 500;
-
+    
     const margin = {
     top: 20,
     right: 20,
     bottom: 60,
     left: 100
     };
-
+    
     const width = svgWidth - margin.left - margin.right;
     const height = svgHeight - margin.top - margin.bottom;
-
+    
     // Create an SVG wrapper, append an SVG group that will hold our chart,
     // and shift the latter by left and top margins.
     const svg1 = d3
@@ -37,29 +31,29 @@ function plot(sel_bldg){
     .append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight)
-
+    
     // Append an SVG group
     const chartGroup1 = svg1.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
     const chartGroup2 = svg2.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
+    
     // Initial Params
     let chosenXAxis1 = "temp";
     let chosenXAxis2 = "date";
     let chosenUtility = "chw";
-
+    
     // function used for updating x-scale const upon click on axis label
     const xTempScale = d3.scaleLinear()
         .domain([25, 100])
         .range([0, width]);
-
+    
     function conversion(dateString) {
         return dateString.getUTCFullYear() + "-" +
         ("0" + (dateString.getUTCMonth()+1)).slice(-2) + "-" +
         ("0" + dateString.getUTCDate()).slice(-2);
     }    
-
+    
     function xScale2(utilityData, chosenXAxis2) {
         const xLinearScale2 = d3.scaleTime()
         .domain([d3.min(utilityData, d => d[chosenXAxis2])*0.999,
@@ -74,8 +68,8 @@ function plot(sel_bldg){
         .range([height, 0]);
         return yLinearScale;
     }
-
-
+    
+    
     // function used for updating xAxis const upon click on axis label
     function renderXAxes1(newXScale1, xAxis1) {
     const bottomAxis1 = d3.axisBottom(newXScale1);
@@ -98,11 +92,10 @@ function plot(sel_bldg){
         .call(leftAxis);
         return yAxis;
     }
-
-    // function used for updating circles group with a transition to
-    // new circles
+    
+    // function used for updating circles group with a transition to new circles
     function renderCircles1(circlesGroup1, newXScale1, newYScale, chosenXAxis1, chosenUtility) {
-
+    
     circlesGroup1.transition()
         .duration(1000)
         .attr("cx", d => newXScale1(d[chosenXAxis1]))
@@ -110,14 +103,14 @@ function plot(sel_bldg){
     return circlesGroup1;
     }
     function renderCircles2(circlesGroup2, newXScale2, newYScale, chosenXAxis2, chosenUtility) {
-
+    
         circlesGroup2.transition()
         .duration(1000)
         .attr("cx", d => newXScale2(d[chosenXAxis2]))
         .attr("cy", d => newYScale(d[chosenUtility]));
         return circlesGroup2;
     }
-
+    
     // function used for updating circles group with new tooltip
     function updateToolTip(chosenUtility, circlesGroup) {
         let datelabel = "Date:";
@@ -132,7 +125,7 @@ function plot(sel_bldg){
         else {
             ylabel = "STM:";
         }
-
+    
         const toolTip = d3.tip()
             .attr("class", "tooltip")
             .offset([0, 0])
@@ -141,9 +134,9 @@ function plot(sel_bldg){
                         ${templabel} ${d["temp"]}<br>
                         ${ylabel} ${d[chosenUtility]}`);
             });
-
+    
         circlesGroup.call(toolTip);
-
+    
         circlesGroup.on("mouseover", function(data) {
             toolTip.show(data, this);
         })
@@ -151,14 +144,10 @@ function plot(sel_bldg){
         .on("mouseout", function(data, index) {
             toolTip.hide(data, this);
         });
-
+    
     return circlesGroup;
     }
 
-
-
-    // xLinearScale function above csv import
-    // let xLinearScale1 = xScale1(utilityData, chosenXAxis1);
     let xLinearScale2 = xScale2(utilityData, chosenXAxis2);
 
     // Create y scale function
@@ -271,7 +260,6 @@ function plot(sel_bldg){
             // replaces chosenXAxis with value
             chosenUtility = value;
 
-            // functions here found above csv import
             // updates x scale for new data
             yLinearScale = yScale(utilityData, chosenUtility);
 
@@ -324,5 +312,4 @@ function plot(sel_bldg){
             }
         }
     });
-
 };

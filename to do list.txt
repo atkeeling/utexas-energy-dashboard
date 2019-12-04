@@ -1,37 +1,26 @@
-## JS
-- popup link goes to plot page with bulding id in URL
-- from plot page javascript use d3.json to call the buildings route and fetch building data
-- build plotly charts with returned data (see HW 12)
+load rest of buildings into SQL
 
-## python (flask)
-- create meter_json route that queries database and gets meter data for the selected acronym
-- return jsonified meter data 
+load rest of dates
+date range selector - slider and type in fields
 
-## postgres
-- create table for building metadata
-- create table for meter data 
-
-
-
-move data to SQL
+grab temp data separate from meter data
 
 change colors of circles to match utility selected
 
+move map to same page as plots
 map to have radius based on utility selected
 
 add TBU-site and TBU-source
-
-date range selector - slider and type in fields
 
 calculate regression based on given date range
 plot model
 plot variance band
 ability to remove bad data
 
-separate utility and temp data into separate files
-
 EUI calculation per day
 rolling source EUI per utility
 add EUI target line on time plot
+
+move data to postgres?
 
 auto load data to SQL every day
