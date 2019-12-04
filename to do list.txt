@@ -1,5 +1,3 @@
-load rest of buildings into SQL
-
 load rest of dates
 date range selector - slider and type in fields
 
@@ -24,3 +22,4 @@ add EUI target line on time plot
 move data to postgres?
 
 auto load data to SQL every day
+

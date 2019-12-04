@@ -1,8 +1,11 @@
 async function plots(sel_bldg){
     let url = `/meter_json/${sel_bldg}`;
-    const parseTime = d3.timeParse("%m/%e/%Y %_H:%M");
+    const parseTime = d3.timeParse("%m/%e/%Y");
     let utilityData = await d3.json(url).then(function(data) {
-        data.map(d => d.date = parseTime(d.DateTime));
+        data.map(d => d.date = parseTime(d.DateTime))
+        data.map(d => d.chw = +d.chw)
+        data.map(d => d.ele = +d.ele)
+        data.map(d => d.stm = +d.stm);
         return data
         });
 
@@ -64,27 +67,27 @@ async function plots(sel_bldg){
     }
     function yScale(utilityData, chosenUtility) {
         let yLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(utilityData, d => d[chosenUtility]) * 1.2])
+        .domain([0, d3.max(utilityData, d => d[chosenUtility])*1.2])
         .range([height, 0]);
         return yLinearScale;
     }
     
     
     // function used for updating xAxis const upon click on axis label
-    function renderXAxes1(newXScale1, xAxis1) {
-    const bottomAxis1 = d3.axisBottom(newXScale1);
-    xAxis1.transition()
-        .duration(1000)
-        .call(bottomAxis1);
-    return xAxis1;
-    }
-    function renderXAxes2(newXScale2, xAxis2) {
-        const bottomAxis2 = d3.axisBottom(newXScale2);
-        xAxis2.transition()
-        .duration(1000)
-        .call(bottomAxis2);
-        return xAxis2;
-    }
+    // function renderXAxes1(newXScale1, xAxis1) {
+    //     const bottomAxis1 = d3.axisBottom(newXScale1);
+    //     xAxis1.transition()
+    //         .duration(1000)
+    //         .call(bottomAxis1);
+    //     return xAxis1;
+    // }
+    // function renderXAxes2(newXScale2, xAxis2) {
+    //     const bottomAxis2 = d3.axisBottom(newXScale2);
+    //     xAxis2.transition()
+    //     .duration(1000)
+    //     .call(bottomAxis2);
+    //     return xAxis2;
+    // }
     function renderYAxes(newYScale, yAxis) {
         const leftAxis = d3.axisLeft(newYScale);
         yAxis.transition()
@@ -265,7 +268,7 @@ async function plots(sel_bldg){
 
             // updates x axis with transition
             yAxis1 = renderYAxes(yLinearScale, yAxis1);
-            yAxis2 = renderYAxes(yLinearScale, yAxis2)
+            yAxis2 = renderYAxes(yLinearScale, yAxis2);
 
             // updates circles with new x values
             circlesGroup1 = renderCircles1(circlesGroup1, xTempScale, yLinearScale, chosenXAxis1, chosenUtility);

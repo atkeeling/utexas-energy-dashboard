@@ -34,7 +34,7 @@ Base.prepare(db.engine, reflect=True)
 
 Building_info = Base.classes.building_info
 Meter_readings = Base.classes.meter_readings
-Daily_temp = Base.classes.dailyTemp
+
 
 # session = Session(engine)
 
@@ -67,6 +67,13 @@ def meter_json(sel_bldg):
         Meter_readings.temp
     ]
     results = db.session.query(*sel).filter(Meter_readings.acr == sel_bldg).all()
+    # selection = sel_bldg
+    # date_results = db.session.query(Daily_temp.date).all()
+    # chw_results = db.session.query(chw_table.selection).all()
+    # ele_results = db.session.query(ele_table.selection).all()
+    # stm_results = db.session.query(stm_table.selection).all()
+    # temp_results = db.session.query(Daily_temp.temp).all()
+
     # meter_data = {}
     # for result in results:
     #     meter_data["chw"] = result[0]
@@ -79,11 +86,11 @@ def meter_json(sel_bldg):
     # stm = [result[3] for result in results]
     # temp = [result[4] for result in results]
     # meter_data = {
-    #     "date": date,
-    #     "chw": chw,
-    #     "ele": ele,
-    #     "stm": stm,
-    #     "temp": temp
+    #     "date": date_results,
+    #     "chw": chw_results[sel_bldg],
+    #     "ele": ele_results[sel_bldg],
+    #     "stm": stm_results[sel_bldg],
+    #     "temp": temp_results
     # }
     meter_data = []
     for result in results:
