@@ -9,14 +9,14 @@ async function plots(sel_bldg){
         return data
         });
 
-    const svgWidth = 800;
+    const svgWidth = 1000;
     const svgHeight = 500;
     
     const margin = {
     top: 20,
-    right: 20,
+    right: 80,
     bottom: 60,
-    left: 100
+    left: 80
     };
     
     const width = svgWidth - margin.left - margin.right;
@@ -57,17 +57,21 @@ async function plots(sel_bldg){
         ("0" + dateString.getUTCDate()).slice(-2);
     }    
     
+    let parseDate = d3.timeParse("%m/%d/%Y")
+    let startDate = d3.min(utilityData, d => d[chosenXAxis2]);
+    console.log(startDate)
+    let endDate = d3.max(utilityData, d => d[chosenXAxis2]);
+    console.log(endDate)
+
     function xScale2(utilityData, chosenXAxis2) {
         const xLinearScale2 = d3.scaleTime()
-        .domain([d3.min(utilityData, d => d[chosenXAxis2])*0.999,
-            d3.max(utilityData, d => d[chosenXAxis2]*1.001)
-        ])
+        .domain([startDate*0.999,endDate*1.001])
         .range([0, width]);
         return xLinearScale2;
     }
     function yScale(utilityData, chosenUtility) {
         let yLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(utilityData, d => d[chosenUtility])*1.2])
+        .domain([0, d3.max(utilityData, d => d[chosenUtility])*1])
         .range([height, 0]);
         return yLinearScale;
     }
@@ -116,8 +120,7 @@ async function plots(sel_bldg){
     
     // function used for updating circles group with new tooltip
     function updateToolTip(chosenUtility, circlesGroup) {
-        let datelabel = "Date:";
-        let templabel = "Temperature:";
+        let templabel = "Temp:";
         let ylabel = "";
         if (chosenUtility === "chw") {
             ylabel = "CHW:";
@@ -133,9 +136,9 @@ async function plots(sel_bldg){
             .attr("class", "tooltip")
             .offset([0, 0])
             .html(function(d) {
-                return (`${datelabel} ${conversion(d["date"])}<br>
+                return (`${conversion(d["date"])}<br>
                         ${templabel} ${d["temp"]}<br>
-                        ${ylabel} ${d[chosenUtility]}`);
+                        ${ylabel} ${d[chosenUtility].toFixed(0)}`);
             });
     
         circlesGroup.call(toolTip);
@@ -221,8 +224,8 @@ async function plots(sel_bldg){
 
     // Create group for 3 y- axis labels
     const ylabelsGroup = chartGroup1.append("g")
-        // .attr("transform", `translate(${0-margin.left}, ${height / 2})`)
-        .attr("transform", `rotate(-90) translate (${0-height / 2} ${0-margin.left})`)
+        .attr("transform", `translate(${width}, ${height / 2})`)
+        // .attr("transform", `rotate(-90) translate (${0-height / 2} ${0-margin.left})`)
         // .attr("transform", "rotate(-90)")
         .attr("dy", "1em")
         .classed("axis-text", true);
@@ -247,8 +250,6 @@ async function plots(sel_bldg){
         .attr("value", "stm") // value to grab for event listener
         .classed("inactive", true)
         .text("STM");
-
-
 
     // updateToolTip function above csv import
     circlesGroup1 = updateToolTip(chosenUtility, circlesGroup1);

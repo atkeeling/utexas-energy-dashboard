@@ -11,19 +11,53 @@ let mymap = L.map('map', {
     layers: [outdoors] 
 });
 
+// d3.json("/building_json", function(data) {
+//     data.forEach(building => {
+//         L.marker([building.lat,building.lon], {
+//             riseOnHover: true})
+//         // .bindTooltip(`<a href='plots/${building.acr}'>${building.acr}</a>`,{permanent: true})
+//         // .bindPopup(`<a href='plots/${building.acr}'>${building.acr}</a>`)
+//         .addTo(mymap)
+//     })
+// })
+
+// d3.json("/building_json", function(data) {
+//     data.forEach(building => {
+//         L.popup({
+//             closeButton: false,
+//             minWidth: 25,
+//             autoPan: false,
+//             className: "pop"
+//         })
+//         .setLatLng([building.lat,building.lon])
+//         .setContent(`<a href='plots/${building.acr}'>${building.acr}</a>`)
+//         .addTo(mymap);
+
+//     })
+// })
+
+// d3.json("/building_json", function(data) {
+//     data.forEach(building => {
+//         L.circleMarker([building.lat,building.lon], {
+//             riseOnHover: true})
+//         .bindTooltip(`<a href='plots/${building.acr}'>${building.acr}</a>`,{permanent: true})
+//         .bindPopup(`<a href='plots/${building.acr}'>${building.acr}</a>`)
+//         .addTo(mymap)
+//     })
+// })
+
 d3.json("/building_json", function(data) {
     data.forEach(building => {
-        L.marker([building.lat,building.lon])
-        .bindPopup(`<a href='plots/${building.acr}'>${building.acr}</a>`)
+        bldgIcon = L.divIcon({
+            className: "my-div-icon",
+            html: `<a href='plots/${building.acr}'>${building.acr}</a>`
+        })
+        L.marker([building.lat,building.lon], {
+            riseOnHover: true,
+            icon: bldgIcon
+        })
+        // .bindTooltip(`<a href='plots/${building.acr}'>${building.acr}</a>`,{permanent: true})
+        // .bindPopup(`<a href='plots/${building.acr}'>${building.acr}</a>`)
         .addTo(mymap)
     })
 })
-
-// let buildingLayer = new L.LayerGroup();
-
-// let baseLayers = {
-//     "Outdoors": outdoors,
-// };
-
-// L.control.layers(baseLayers, {collapsed: false}).addTo(mymap);
- 

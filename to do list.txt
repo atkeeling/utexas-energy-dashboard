@@ -1,11 +1,18 @@
-load rest of dates
-date range selector - slider and type in fields
+remove demo'ed buildings
+
+load rest of data
+including gas, hot water, domestic water, and all dates
 
 grab temp data separate from meter data
+link to temp data source
+
+change structure of database to have one meter reading per record
+then can have additional columns to mark data as bad, expected value, subbed value
+
+date range selector - slider and type in fields
 
 change colors of circles to match utility selected
 
-move map to same page as plots
 map to have radius based on utility selected
 
 add TBU-site and TBU-source

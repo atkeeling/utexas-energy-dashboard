@@ -9,6 +9,10 @@ html {
   height: 100%;
 }
 
+.my-div-icon {
+  color: black
+}
+
 /* .legend {
   line-height: 18px;
   color: #555;
